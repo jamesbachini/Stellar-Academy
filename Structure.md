@@ -48,3 +48,14 @@
       - [Roadmap](https://stellar.org/foundation/roadmap)
     - [Learn](https://developers.stellar.org/docs)
       - [Stellar Quest](https://quest.stellar.org/)
+
+# Enterprise & Institutions
+  - [Use Cases](https://stellar.org/use-cases)
+    - [Payments](https://stellar.org/use-cases/payments)
+    - [Tokenization](https://stellar.org/use-cases/tokenization)
+    - [On/Off Ramps](https://stellar.org/use-cases/ramps)
+    - [Disbursement](https://stellar.org/use-cases/stellar-for-aid)
+    - [DeFi](https://stellar.org/use-cases/defi)
+  - [Case Studies](https://stellar.org/case-studies)
+  - [Products](https://stellar.org/products-and-tools)
+  - [Connect](https://stellar.org/connect)

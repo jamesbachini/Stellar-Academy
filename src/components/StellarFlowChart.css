@@ -174,4 +174,8 @@
   .flow-wrapper {
     height: auto;
   }
+
+  .flow-viewport.stacked .flow-node.is-deep {
+    display: none;
+  }
 }

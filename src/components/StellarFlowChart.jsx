@@ -20,6 +20,12 @@ const trackThemes = {
     edge: '#38bdf8',
     edgePalette: ['#38bdf8', '#f472b6', '#a78bfa', '#fbbf24'],
   },
+  enterprise: {
+    accent: '#34d399',
+    accentSoft: 'rgba(52, 211, 153, 0.25)',
+    edge: '#34d399',
+    edgePalette: ['#34d399', '#f59e0b', '#60a5fa', '#f97316'],
+  },
 };
 
 const trackNodes = {
@@ -437,6 +443,98 @@ const trackNodes = {
       position: { x: 400, y: 340 },
     },
   ],
+  enterprise: [
+    {
+      id: 'enterprise-hub',
+      data: {
+        label: 'Enterprise & Institutions',
+        description: 'Resources for large-scale Stellar adoption.',
+        variant: 'root',
+      },
+      position: { x: 0, y: 0 },
+    },
+    {
+      id: 'enterprise-use-cases',
+      data: {
+        label: 'Use Cases',
+        description: 'Enterprise-grade applications built on Stellar.',
+        url: 'https://stellar.org/use-cases',
+      },
+      position: { x: 260, y: -160 },
+    },
+    {
+      id: 'enterprise-payments',
+      data: {
+        label: 'Payments',
+        description: 'Cross-border and real-time payment rails.',
+        url: 'https://stellar.org/use-cases/payments',
+      },
+      position: { x: 520, y: -280 },
+    },
+    {
+      id: 'enterprise-tokenization',
+      data: {
+        label: 'Tokenization',
+        description: 'Issue and manage tokenized assets.',
+        url: 'https://stellar.org/use-cases/tokenization',
+      },
+      position: { x: 520, y: -180 },
+    },
+    {
+      id: 'enterprise-ramps',
+      data: {
+        label: 'On/Off Ramps',
+        description: 'Bridge fiat rails into Stellar.',
+        url: 'https://stellar.org/use-cases/ramps',
+      },
+      position: { x: 520, y: -80 },
+    },
+    {
+      id: 'enterprise-disbursement',
+      data: {
+        label: 'Disbursement',
+        description: 'Distribute funds and aid at scale.',
+        url: 'https://stellar.org/use-cases/stellar-for-aid',
+      },
+      position: { x: 520, y: 20 },
+    },
+    {
+      id: 'enterprise-defi',
+      data: {
+        label: 'DeFi',
+        description: 'Institutional DeFi opportunities.',
+        url: 'https://stellar.org/use-cases/defi',
+      },
+      position: { x: 520, y: 120 },
+    },
+    {
+      id: 'enterprise-case-studies',
+      data: {
+        label: 'Case Studies',
+        description: 'Enterprise deployments and outcomes.',
+        url: 'https://stellar.org/case-studies',
+      },
+      position: { x: 260, y: 80 },
+    },
+    {
+      id: 'enterprise-products',
+      data: {
+        label: 'Products',
+        description: 'Stellar products and tools for institutions.',
+        url: 'https://stellar.org/products-and-tools',
+      },
+      position: { x: 260, y: 240 },
+    },
+    {
+      id: 'enterprise-connect',
+      data: {
+        label: 'Connect',
+        description: 'Talk with the Stellar team.',
+        url: 'https://stellar.org/connect',
+      },
+      position: { x: 260, y: 400 },
+    },
+  ],
 };
 
 const trackEdges = {
@@ -497,6 +595,29 @@ const trackEdges = {
     { id: 'e-intro-learn', source: 'biz-intro', target: 'biz-learn' },
     { id: 'e-learn-quest', source: 'biz-learn', target: 'biz-quest' },
   ],
+  enterprise: [
+    { id: 'ent-hub-use-cases', source: 'enterprise-hub', target: 'enterprise-use-cases' },
+    { id: 'ent-use-payments', source: 'enterprise-use-cases', target: 'enterprise-payments' },
+    {
+      id: 'ent-use-tokenization',
+      source: 'enterprise-use-cases',
+      target: 'enterprise-tokenization',
+    },
+    { id: 'ent-use-ramps', source: 'enterprise-use-cases', target: 'enterprise-ramps' },
+    {
+      id: 'ent-use-disbursement',
+      source: 'enterprise-use-cases',
+      target: 'enterprise-disbursement',
+    },
+    { id: 'ent-use-defi', source: 'enterprise-use-cases', target: 'enterprise-defi' },
+    {
+      id: 'ent-hub-case-studies',
+      source: 'enterprise-hub',
+      target: 'enterprise-case-studies',
+    },
+    { id: 'ent-hub-products', source: 'enterprise-hub', target: 'enterprise-products' },
+    { id: 'ent-hub-connect', source: 'enterprise-hub', target: 'enterprise-connect' },
+  ],
 };
 
 const edgeColorByTrack = {
@@ -547,6 +668,17 @@ const edgeColorByTrack = {
     'e-tech-roadmap': 2,
     'e-intro-learn': 3,
     'e-learn-quest': 3,
+  },
+  enterprise: {
+    'ent-hub-use-cases': 0,
+    'ent-use-payments': 0,
+    'ent-use-tokenization': 0,
+    'ent-use-ramps': 0,
+    'ent-use-disbursement': 0,
+    'ent-use-defi': 0,
+    'ent-hub-case-studies': 1,
+    'ent-hub-products': 2,
+    'ent-hub-connect': 3,
   },
 };
 
@@ -736,6 +868,30 @@ function useTrackData(track) {
       const color = palette[colorIndex] ?? theme.edge;
       return { ...edge, color };
     });
+    const rootIds = baseNodes
+      .filter((node) => node.data?.variant === 'root')
+      .map((node) => node.id);
+    const adjacency = edges.reduce((acc, edge) => {
+      if (!acc[edge.source]) acc[edge.source] = [];
+      acc[edge.source].push(edge.target);
+      return acc;
+    }, {});
+    const depthById = {};
+    const queue = [];
+    rootIds.forEach((id) => {
+      depthById[id] = 1;
+      queue.push(id);
+    });
+    while (queue.length) {
+      const current = queue.shift();
+      const nextDepth = (depthById[current] ?? 1) + 1;
+      (adjacency[current] ?? []).forEach((target) => {
+        if (!depthById[target] || nextDepth < depthById[target]) {
+          depthById[target] = nextDepth;
+          queue.push(target);
+        }
+      });
+    }
 
     const inboundColors = edges.reduce((acc, edge) => {
       if (!acc[edge.target]) acc[edge.target] = [];
@@ -748,6 +904,7 @@ function useTrackData(track) {
         mixColors(inboundColors[node.id] ?? []) ??
         mixColors([theme.edge]) ??
         'rgba(16, 20, 31, 0.9)';
+      const depth = depthById[node.id] ?? 2;
       return {
         ...node,
         position: {
@@ -760,6 +917,7 @@ function useTrackData(track) {
           accent: theme.accent,
           accentSoft: theme.accentSoft,
           tint,
+          depth,
         },
       };
     });
@@ -999,7 +1157,7 @@ export default function StellarFlowChart({ track }) {
               {nodes.map((node) => {
                 const nodeClassName = `flow-node ${node.data.variant ?? ''} ${
                   node.data.url ? 'clickable' : ''
-                }`;
+                } ${node.data.depth >= 3 ? 'is-deep' : ''}`;
                 const sharedProps = {
                   className: nodeClassName,
                   style: {
@@ -1009,6 +1167,7 @@ export default function StellarFlowChart({ track }) {
                     '--accent-soft': theme.accentSoft,
                     '--node-tint': node.data.tint,
                   },
+                  'data-depth': node.data.depth,
                   ref: (element) => {
                     if (element) {
                       nodeRefs.current[node.id] = element;
