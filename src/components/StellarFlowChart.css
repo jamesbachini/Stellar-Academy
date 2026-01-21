@@ -1,0 +1,87 @@
+.flow-wrapper {
+  width: 100%;
+  min-height: 600px;
+}
+
+.flow-card {
+  width: 100%;
+  min-height: 600px;
+  border-radius: 24px;
+  border: 1px solid rgba(148, 163, 184, 0.2);
+  background: linear-gradient(145deg, rgba(11, 15, 23, 0.95), rgba(8, 12, 20, 0.9));
+  box-shadow: 0 24px 50px rgba(4, 6, 12, 0.6);
+  overflow: hidden;
+  position: relative;
+}
+
+.flow-card .react-flow {
+  width: 100%;
+  height: 100%;
+}
+
+.flow-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 20% 20%, rgba(255, 255, 255, 0.06), transparent 45%),
+    radial-gradient(circle at 80% 10%, var(--accent-soft), transparent 45%);
+  pointer-events: none;
+}
+
+.flow-node {
+  min-width: 200px;
+  padding: 14px 16px;
+  border-radius: 16px;
+  background: rgba(16, 20, 31, 0.9);
+  border: 1px solid rgba(148, 163, 184, 0.25);
+  color: #e2e8f0;
+  box-shadow: 0 12px 24px rgba(3, 6, 12, 0.5);
+  transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.flow-node.root {
+  background: linear-gradient(135deg, rgba(15, 23, 42, 0.95), rgba(30, 41, 59, 0.9));
+  border-color: var(--accent);
+  color: #f8fafc;
+  font-weight: 600;
+}
+
+.flow-node.clickable {
+  cursor: pointer;
+}
+
+.flow-node.clickable:hover {
+  transform: translateY(-2px);
+  border-color: var(--accent);
+  box-shadow: 0 16px 30px rgba(3, 6, 12, 0.6);
+}
+
+.node-title {
+  font-size: 0.95rem;
+  line-height: 1.4;
+}
+
+.node-hint {
+  margin-top: 8px;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  color: rgba(226, 232, 240, 0.65);
+}
+
+.react-flow__handle {
+  opacity: 0;
+}
+
+.react-flow__controls {
+  background: rgba(15, 23, 42, 0.8);
+  border: 1px solid rgba(148, 163, 184, 0.35);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 8px 18px rgba(5, 8, 16, 0.5);
+}
+
+.react-flow__controls button {
+  background: transparent;
+  color: #e2e8f0;
+}
