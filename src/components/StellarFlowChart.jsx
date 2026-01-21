@@ -59,7 +59,7 @@ const trackNodes = {
         description: 'Review a minimal Soroban contract example.',
         url: 'https://github.com/stellar/soroban-examples/blob/main/hello_world/src/lib.rs',
       },
-      position: { x: 520, y: -120 },
+      position: { x: 600, y: -140 },
     },
     {
       id: 'contract-open-ide',
@@ -233,7 +233,7 @@ const trackNodes = {
         description: 'Simple dApp frontend walkthrough.',
         url: 'https://developers.stellar.org/docs/build/smart-contracts/getting-started/hello-world-frontend',
       },
-      position: { x: 520, y: -80 },
+      position: { x: 560, y: -80 },
     },
     {
       id: 'frontend-passkey',
@@ -362,7 +362,7 @@ const trackNodes = {
         description: 'Apply for community grant rounds.',
         url: 'https://communityfund.stellar.org/',
       },
-      position: { x: 520, y: -10 },
+      position: { x: 400, y: -60 },
     },
     {
       id: 'biz-ecosystem',
@@ -371,7 +371,7 @@ const trackNodes = {
         description: 'Explore companies and partners.',
         url: 'https://stellar.org/ecosystem',
       },
-      position: { x: 520, y: 70 },
+      position: { x: 400, y: 60 },
     },
     {
       id: 'biz-technology',
@@ -416,7 +416,7 @@ const trackNodes = {
         description: 'View the Stellar roadmap.',
         url: 'https://stellar.org/foundation/roadmap',
       },
-      position: { x: 780, y: 360 },
+      position: { x: 710, y: 360 },
     },
     {
       id: 'biz-learn',
@@ -434,7 +434,7 @@ const trackNodes = {
         description: 'Guided learning and rewards.',
         url: 'https://quest.stellar.org/',
       },
-      position: { x: 320, y: 380 },
+      position: { x: 400, y: 340 },
     },
   ],
 };
@@ -483,7 +483,12 @@ const trackEdges = {
     { id: 'e-sdf-careers', source: 'biz-sdf', target: 'biz-careers' },
     { id: 'e-intro-grants', source: 'biz-intro', target: 'biz-grants' },
     { id: 'e-grants-fund', source: 'biz-grants', target: 'biz-community-fund' },
-    { id: 'e-grants-eco', source: 'biz-grants', target: 'biz-ecosystem' },
+    {
+      id: 'e-grants-eco',
+      source: 'biz-grants',
+      target: 'biz-ecosystem',
+      forceVertical: true,
+    },
     { id: 'e-intro-tech', source: 'biz-intro', target: 'biz-technology' },
     { id: 'e-tech-stack', source: 'biz-technology', target: 'biz-stack' },
     { id: 'e-tech-lumens', source: 'biz-technology', target: 'biz-lumens' },
@@ -595,18 +600,29 @@ function seededValue(seed, offset) {
   return (mixed % 1000) / 1000;
 }
 
-function getEdgeCurve(source, target) {
+function getEdgeCurve(source, target, edge) {
   const sourceCenterX = source.position.x + source.size.width / 2;
   const sourceCenterY = source.position.y + source.size.height / 2;
   const targetCenterX = target.position.x + target.size.width / 2;
   const targetCenterY = target.position.y + target.size.height / 2;
   const dx = targetCenterX - sourceCenterX;
   const dy = targetCenterY - sourceCenterY;
-  const isHorizontal = Math.abs(dx) >= Math.abs(dy);
+  const isHorizontal = edge?.forceVertical
+    ? false
+    : edge?.forceHorizontal
+      ? true
+      : Math.abs(dx) >= Math.abs(dy);
+  const edgePadding = 12;
 
   if (isHorizontal) {
-    const startX = dx >= 0 ? source.position.x + source.size.width : source.position.x;
-    const endX = dx >= 0 ? target.position.x : target.position.x + target.size.width;
+    const startX =
+      dx >= 0
+        ? source.position.x + source.size.width + edgePadding
+        : source.position.x - edgePadding;
+    const endX =
+      dx >= 0
+        ? target.position.x - edgePadding
+        : target.position.x + target.size.width + edgePadding;
     const startY = sourceCenterY;
     const endY = targetCenterY;
     const controlOffset = Math.max(80, Math.abs(endX - startX) * 0.4);
@@ -621,8 +637,14 @@ function getEdgeCurve(source, target) {
     };
   }
 
-  const startY = dy >= 0 ? source.position.y + source.size.height : source.position.y;
-  const endY = dy >= 0 ? target.position.y : target.position.y + target.size.height;
+  const startY =
+    dy >= 0
+      ? source.position.y + source.size.height + edgePadding
+      : source.position.y - edgePadding;
+  const endY =
+    dy >= 0
+      ? target.position.y - edgePadding
+      : target.position.y + target.size.height + edgePadding;
   const startX = sourceCenterX;
   const endX = targetCenterX;
   const controlOffset = Math.max(60, Math.abs(endY - startY) * 0.4);
@@ -955,21 +977,19 @@ export default function StellarFlowChart({ track }) {
                     const source = nodesById[edge.source];
                     const target = nodesById[edge.target];
                     if (!source || !target) return null;
-                    const curve = getEdgeCurve(source, target);
+                    const curve = getEdgeCurve(source, target, edge);
                     const edgeColor = edge.color ?? theme.edge;
                   const corePath = buildRibbonPath(edge.id, curve, 20, 7.8);
                   const glowPath = buildRibbonPath(edge.id, curve, 32, 12.8);
                     return (
-                      <g key={edge.id}>
+                      <g key={edge.id} style={{ color: edgeColor }}>
                         <path
                           d={glowPath}
                           className="flow-edge flow-edge-glow"
-                          fill={edgeColor}
                         />
                         <path
                           d={corePath}
                           className="flow-edge flow-edge-core"
-                          fill={edgeColor}
                         />
                       </g>
                     );

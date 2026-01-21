@@ -84,12 +84,12 @@
 }
 
 .flow-edge-glow {
-  opacity: 0.025;
+  opacity: 0.06;
   filter: blur(14px);
 }
 
 .flow-edge-core {
-  opacity: 0.12;
+  opacity: 0.22;
 }
 
 .flow-node {

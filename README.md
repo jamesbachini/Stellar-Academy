@@ -1,2 +1,7 @@
 # Stellar Academy
-A interactive flow chart for newcomers to Stellar
+
+Structured learning paths for Stellar developers and founders.
+
+Demo site: https://jamesbachini.github.io/Stellar-Academy/
+
+
