@@ -32,7 +32,7 @@
       - [llms.txt](https://developers.stellar.org/llms.txt)
     - [Security](https://developers.stellar.org/docs/build/security-docs/securing-web-based-projects)
 
-# Entrepreneurs & Investors
+# Founders & Investors
   - [Introducing Stellar](https://stellar.org/learn/intro-to-stellar)
     - [Stellar Development Foundation](https://stellar.org/foundation)
       - [Case Studies](https://stellar.org/case-studies)

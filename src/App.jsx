@@ -46,7 +46,7 @@ const tracks = [
   },
   {
     id: 'entrepreneurs',
-    label: 'Entrepreneurs & Investors',
+    label: 'Founders & Investors',
     icon: (
       <svg viewBox="0 0 24 24" aria-hidden="true">
         <path
@@ -78,8 +78,7 @@ export default function App() {
           <p className="eyebrow">Stellar Academy</p>
           <h1>Build your path on Stellar</h1>
           <p className="subtitle">
-            Explore a curated, interactive flow chart. Click any node to open the
-            resource in a new tab.
+            Explore a curated, interactive learning path. Click any node to open the resource.
           </p>
         </div>
       </header>

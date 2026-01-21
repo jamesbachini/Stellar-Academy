@@ -8,9 +8,39 @@
   flex-direction: column;
   gap: 24px;
   padding: 32px 32px 40px;
-  background: radial-gradient(circle at top, #1a2337 0%, #0b0d14 55%, #07080c 100%);
+  background: radial-gradient(circle at top, #14151a 0%, #07080b 45%, #030304 100%);
   color: #f4f6fb;
   font-family: "Manrope", "Avenir Next", "Segoe UI", sans-serif;
+  position: relative;
+  overflow: hidden;
+}
+
+.app-shell::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: repeating-linear-gradient(
+      60deg,
+      rgba(255, 255, 255, 0.03) 0 1px,
+      transparent 1px 18px
+    ),
+    repeating-linear-gradient(
+      -60deg,
+      rgba(255, 255, 255, 0.03) 0 1px,
+      transparent 1px 18px
+    ),
+    repeating-linear-gradient(
+      0deg,
+      rgba(255, 255, 255, 0.02) 0 1px,
+      transparent 1px 20px
+    );
+  opacity: 0.35;
+  pointer-events: none;
+}
+
+.app-shell > * {
+  position: relative;
+  z-index: 1;
 }
 
 .app-header {
@@ -36,7 +66,7 @@
 
 .subtitle {
   margin: 12px 0 0;
-  max-width: 520px;
+  max-width: 620px;
   line-height: 1.6;
   color: #b7c4df;
 }
