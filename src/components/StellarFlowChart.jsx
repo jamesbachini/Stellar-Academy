@@ -449,6 +449,7 @@ const trackNodes = {
       data: {
         label: 'Enterprise & Institutions',
         description: 'Resources for large-scale Stellar adoption.',
+        url: 'https://stellar.org/enterprise-fund',
         variant: 'root',
       },
       position: { x: 0, y: 0 },
